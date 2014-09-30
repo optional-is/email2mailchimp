@@ -4,7 +4,6 @@ import logging
 import flask
 import json
 import flask_config
-from flask.ext.sqlalchemy import SQLAlchemy
 
 app = flask.Flask(__name__)
 
