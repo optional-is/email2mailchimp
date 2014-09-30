@@ -6,6 +6,7 @@ import json
 import flask_config
 from flask import request
 from werkzeug.datastructures import ImmutableMultiDict
+from postmonkey import PostMonkey
 
 app = flask.Flask(__name__)
 
@@ -87,13 +88,12 @@ def strip2mailchimp():
 		
 	event_json = json.loads(request.data)
 
-	print event_json
 	# we have the data we are looking for
 	if 'type' in event_json and event_json['type'] == 'charge.succeeded':
 		# Get the email address
 		email = event_json['data']['object']['receipt_email']
 		# Send that off to Mailchimp
-		print email
+		pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
 	
 	return file('templates/index.html').read()
 
@@ -112,5 +112,5 @@ if __name__ == '__main__':
 	stream_handler.setLevel(logging.WARNING)
 	app.logger.addHandler(stream_handler)
 
-	app.debug = True
+	app.debug = False
 	app.run(host='0.0.0.0', port=flask_config.port)
