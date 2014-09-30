@@ -5,6 +5,7 @@ import flask
 import json
 import flask_config
 from flask import request
+from werkzeug.datastructures import ImmutableMultiDict
 
 app = flask.Flask(__name__)
 
@@ -79,11 +80,18 @@ def strip2mailchimp():
 	}
 	"""
 
-	#print request.data
-	event_json = json.load(request.data)
-	print event_json
+	i = request.form
+	for k in i:
+		event_json = json.loads(k)
 	
-	return {}
+	# we have the data we are looking for
+	if 'type' in event_json and event_json['type'] == 'charge.succeeded':
+		# Get the email address
+		email = event_json['data']['object']['receipt_email']
+		# Send that off to Mailchimp
+		print email
+	
+	return file('templates/index.html').read()
 
 
 @app.route('/')
