@@ -81,6 +81,7 @@ def strip2mailchimp():
 	"""
 
 	i = request.form
+	print i
 	for k in i:
 		event_json = json.loads(k)
 
@@ -109,5 +110,5 @@ if __name__ == '__main__':
 	stream_handler.setLevel(logging.WARNING)
 	app.logger.addHandler(stream_handler)
 
-	app.debug = False
+	app.debug = True
 	app.run(host='0.0.0.0', port=flask_config.port)
