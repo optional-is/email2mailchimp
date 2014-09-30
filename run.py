@@ -4,6 +4,7 @@ import logging
 import flask
 import json
 import flask_config
+from flask import request
 
 app = flask.Flask(__name__)
 
@@ -78,9 +79,9 @@ def strip2mailchimp():
 	}
 	"""
 
-	
-	event_json = json.load(request.body)
-	print event_json
+	print request.form
+	#event_json = json.load(request)
+	#print event_json
 	
 	return {}
 
