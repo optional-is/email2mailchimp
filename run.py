@@ -79,9 +79,9 @@ def strip2mailchimp():
 	}
 	"""
 
-	print request.form
-	#event_json = json.load(request)
-	#print event_json
+	#print request.data
+	event_json = json.load(request.data)
+	print event_json
 	
 	return {}
 
