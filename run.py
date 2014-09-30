@@ -81,10 +81,11 @@ def strip2mailchimp():
 	"""
 
 	# locally use .form
-	# i = request.form
-	i = request.data
-	for k in i:
-		event_json = json.loads(k)
+	#i = request.form
+	#for k in i:
+	#	event_json = json.loads(k)
+		
+	event_json = json.loads(request.data)
 
 	print event_json
 	# we have the data we are looking for
