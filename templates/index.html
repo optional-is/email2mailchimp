@@ -15,8 +15,9 @@
   </head>
   <body>
 	<h1>Webhook Acceptor</h1>
-	<form action="/webhook" method="post">
-		<textarea name="foo"></textarea>
+	<form action="/subscribe" method="post">
+		<textarea name="email"></textarea>
+		<input type="hidden" value="FooBar" name="sk" />
 		<input type="submit" />
 	</form>
   </body>
