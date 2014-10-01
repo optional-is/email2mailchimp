@@ -22,7 +22,31 @@ def lists():
 	for list in lists['data']:
 	    print list['id'], list['name']
 
-	return file('templates/index.html').read()
+	return file('templates/200.json').read()
+
+@app.route('/subscribe', methods=['POST'])
+def subscribe():
+	if os.environ.get('SECRET_KEY',None) != None or request.form.get('sk',None) != None:
+		secret_key = os.environ.get('SECRET_KEY',None)
+		if secret_key != request.form.get('sk',None):
+			# We were expecting a secret key because one is set, but we didn't or it didn't match
+			return file('templates/401.json').read()
+		
+	# We have passed the shared secret or we didn't care about it
+	pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+	
+	# Get a posted email address
+	email = request.form.get('email',None)
+	if not email == None:
+		# Send that off to Mailchimp
+		pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+		try:
+			pm.listSubscribe(id=os.environ.get('MAILCHIMP_LIST_ID',''),email_address=email,double_optin=False)
+		except MailChimpException, e:
+			print e.code  # 200
+			print e.error # u'Invalid MailChimp List ID: 42'
+
+	return file('templates/200.json').read()
 
 
 @app.route('/webhook', methods=['POST'])
@@ -112,9 +136,10 @@ def strip2mailchimp():
 			except MailChimpException, e:
 				print e.code  # 200
 				print e.error # u'Invalid MailChimp List ID: 42'
+				return file('templates/500.json').read()
 		
 	
-	return file('templates/index.html').read()
+	return file('templates/200.json').read()
 
 
 @app.route('/')
