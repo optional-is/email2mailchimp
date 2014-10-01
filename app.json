@@ -5,7 +5,7 @@
   "keywords": ["python", "flask", "mailchimp", "stripe"],
   "website": "http://analog.is",
   "env": {
-    "MAILCHIMP_API_KEY": "",
-    "MAILCHIMP_LIST_ID": "",
+    "MAILCHIMP_API_KEY": "-",
+    "MAILCHIMP_LIST_ID": "-",
   }
 }
