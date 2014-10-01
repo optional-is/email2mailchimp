@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 import logging
 import flask
 import json
@@ -7,11 +8,21 @@ import flask_config
 from flask import request
 from werkzeug.datastructures import ImmutableMultiDict
 from postmonkey import PostMonkey
+from postmonkey import MailChimpException
 
 app = flask.Flask(__name__)
 
 app.static_folder = "templates"
 app.SEND_FILE_MAX_AGE_DEFAULT = 0
+
+@app.route('/lists')
+def lists():
+	pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+	lists = pm.lists()
+	for list in lists['data']:
+	    print list['id'], list['name']
+
+	return file('templates/index.html').read()
 
 
 @app.route('/webhook', methods=['POST'])
@@ -92,8 +103,16 @@ def strip2mailchimp():
 	if 'type' in event_json and event_json['type'] == 'charge.succeeded':
 		# Get the email address
 		email = event_json['data']['object']['receipt_email']
-		# Send that off to Mailchimp
-		pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+		
+		if not email == None:
+			# Send that off to Mailchimp
+			pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+			try:
+				pm.listSubscribe(id=os.environ.get('MAILCHIMP_LIST_ID',''),email_address=email,double_optin=False)
+			except MailChimpException, e:
+				print e.code  # 200
+				print e.error # u'Invalid MailChimp List ID: 42'
+		
 	
 	return file('templates/index.html').read()
 
