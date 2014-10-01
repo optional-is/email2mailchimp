@@ -1,0 +1,12 @@
+{
+  "name": "Stripe2MailChimp",
+  "description": "This services listens for webhooks from Stripe and posts emails to MailChimp",
+  "repository": "https://github.com/optional-is/stripe2mailchimp",
+  "keywords": ["python", "flask", "mailchimp", "stripe"],
+  "website": "http://analog.is",
+  "env": {
+    "MAILCHIMP_API_KEY": "",
+    "MAILCHIMP_LIST_ID": "",
+	"SECRET_KEY":""
+  }
+}
