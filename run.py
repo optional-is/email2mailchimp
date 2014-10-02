@@ -123,7 +123,7 @@ def strip2mailchimp():
 	#	event_json = json.loads(k)
 		
 	event_json = json.loads(request.data)
-
+	print event_json
 	# we have the data we are looking for
 	if 'type' in event_json and event_json['type'] == 'charge.succeeded':
 		# Get the email address
