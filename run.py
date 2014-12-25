@@ -49,7 +49,6 @@ def subscribe():
 
 	return file('templates/200.json').read(), 200
 
-
 @app.route('/webhook/gumroad', methods=['POST'])
 def gumroad():
 	# We have passed the shared secret or we didn't care about it
@@ -68,6 +67,7 @@ def gumroad():
 			return file('templates/401.json').read(), 401
 
 	return file('templates/200.json').read(), 200
+
 
 
 @app.route('/webhook', methods=['POST'])
@@ -143,7 +143,7 @@ def strip2mailchimp():
 	#	event_json = json.loads(k)
 		
 	event_json = json.loads(request.data)
-	print event_json
+
 	# we have the data we are looking for
 	if 'type' in event_json and event_json['type'] == 'charge.succeeded':
 		# Get the email address

@@ -1,5 +1,4 @@
-email2mailchimp
-================
+# email2mailchimp
 
 A simple Flask app that re-routes a Webhook from Stripe to subscribe the user to MailChimp
 
@@ -24,7 +23,9 @@ The email is the email address of the person you wish to add to the list set in 
 ###/webhook
 This takes the Stripe JSON data and parses it to look for the right payload type of "charge.succeeded" and grabs an email address and posts it to the MailChimp Subscribe API.
 
-
 ## Notes
 
 Be sure that you set your Stripe WebHook to LIVE, otherwise it will never send you any data.
+
+###/webhook/gumroad
+This takes the GumRoad data and grabs an email address and posts it to the MailChimp Subscribe API.
