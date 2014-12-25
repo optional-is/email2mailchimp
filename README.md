@@ -24,6 +24,9 @@ The email is the email address of the person you wish to add to the list set in 
 ###/webhook
 This takes the Stripe JSON data and parses it to look for the right payload type of "charge.succeeded" and grabs an email address and posts it to the MailChimp Subscribe API.
 
+###/webhook/gumroad
+This takes the GumRoad PING data and grabs an email address and posts it to the MailChimp Subscribe API.
+
 
 ## Notes
 
