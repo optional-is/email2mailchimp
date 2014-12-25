@@ -50,6 +50,26 @@ def subscribe():
 	return file('templates/200.json').read(), 200
 
 
+@app.route('/webhook/gumroad', methods=['POST'])
+def gumroad():
+	# We have passed the shared secret or we didn't care about it
+	pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+
+	# Get a posted email address
+	email = request.form.get('email',None)
+	if not email == None:
+		# Send that off to Mailchimp
+		pm = PostMonkey(os.environ.get('MAILCHIMP_API_KEY',''))
+		try:
+			pm.listSubscribe(id=os.environ.get('MAILCHIMP_LIST_ID',''),email_address=email,double_optin=False)
+		except MailChimpException, e:
+			print e.code  # 200
+			print e.error # u'Invalid MailChimp List ID: 42'
+			return file('templates/401.json').read(), 401
+
+	return file('templates/200.json').read(), 200
+
+
 @app.route('/webhook', methods=['POST'])
 def strip2mailchimp():
 	"""
